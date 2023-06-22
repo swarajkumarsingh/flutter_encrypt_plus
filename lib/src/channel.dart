@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter_encrypt_plus/src/messages.dart';
+
 final channel = _Channel();
 
 class _Channel {
@@ -13,14 +15,19 @@ class _Channel {
     final inputBytes = Uint8List.fromList(encodedInput);
 
     final combinedBytes = Uint8List(saltBytes.length + inputBytes.length);
-    combinedBytes.setAll(0, saltBytes);
-    combinedBytes.setAll(saltBytes.length, inputBytes);
 
-    for (var i = 0; i < inputBytes.length; i++) {
-      final saltIndex = i % saltBytes.length;
-      final saltByte = saltBytes[saltIndex];
+    try {
+      combinedBytes.setAll(0, saltBytes);
+      combinedBytes.setAll(saltBytes.length, inputBytes);
 
-      combinedBytes[saltBytes.length + i] ^= saltByte;
+      for (var i = 0; i < inputBytes.length; i++) {
+        final saltIndex = i % saltBytes.length;
+        final saltByte = saltBytes[saltIndex];
+
+        combinedBytes[saltBytes.length + i] ^= saltByte;
+      }
+    } catch (e, stackTrace) {
+      message.throwError(e: e, stackTrace: stackTrace);
     }
 
     return base64Url.encode(combinedBytes);
@@ -30,11 +37,15 @@ class _Channel {
     final combinedBytes = base64Url.decode(encodedString);
     final saltBytes = Uint8List.fromList(utf8.encode(salt));
 
-    for (var i = 0; i < combinedBytes.length - saltBytes.length; i++) {
-      final saltIndex = i % saltBytes.length;
-      final saltByte = saltBytes[saltIndex];
+    try {
+      for (var i = 0; i < combinedBytes.length - saltBytes.length; i++) {
+        final saltIndex = i % saltBytes.length;
+        final saltByte = saltBytes[saltIndex];
 
-      combinedBytes[saltBytes.length + i] ^= saltByte;
+        combinedBytes[saltBytes.length + i] ^= saltByte;
+      }
+    } catch (e, stackTrace) {
+      message.throwError(e: e, stackTrace: stackTrace);
     }
 
     final inputBytes = combinedBytes.sublist(saltBytes.length);

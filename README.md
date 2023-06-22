@@ -1,11 +1,15 @@
 # Flutter Url Launcher Plus
 
-- Customizable logger in flutter with pure dart code, with various color options, get insights like(where the print statement is called from and get time of the log), also view/delete old logs.
+- Encrypt and Decrypt strings in flutter with pure Dart code.
 
 ## Supported Devices
 
 - Android
 - IOS
+- WEB
+- LINUX
+- MACOS
+- WINDOWS
 
 ## Installation
 
@@ -13,37 +17,32 @@
 
 ```yaml
 dependencies:
-  flutter_logger_plus:
+  flutter_encrypt_plus:
 ```
 
 2. Import the package and use it in your Flutter App.
 
 ```dart
-import 'package:flutter_logger_plus/flutter_logger_plus.dart';
+import 'package:flutter_encrypt_plus/flutter_encrypt_plus.dart';
 ```
 
 ## Example
 
-```
-  logger.error();
-  logger.log();
-  logger.success();
-  logger.info();
-  logger.blue();
-  logger.pink();
-  logger.cyan();
-  logger.clearLogs();
-  logger.showLogs();
-```
+### Encode String
 
 ```
-  /// [showLogs] ~
-  logger.showLogs();
+  String encodedString = encrypt.encodeString("string", "salt");
 ```
 
+### Decode String
+
 ```
-  /// [clearLogs] ~
-  logger.clearLogs();
+  String decodeString = encrypt.decodeString("encodedString", "salt");
+```
+
+### Test Package
+```
+  bool result = encrypt.testPackage();
 ```
 
 ## Next Goals
