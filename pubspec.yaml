@@ -1,6 +1,6 @@
 name: flutter_encrypt_plus
 description: Encrypt and Decrypt strings in flutter with pure Dart code.
-version: 1.0.0
+version: 2.0.0
 homepage: https://github.com/swarajkumarsingh/flutter_encrypt_plus
 
 environment:
